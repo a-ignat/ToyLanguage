@@ -1,22 +1,3 @@
-Router toy language
-
-A very simple language for interacting with Cisco devices.
-Based on Python as meta language. Before connecting to a device
-some preliminary checks are executed:
-1. If the provided IP address is valid.
-2. If the IP is ping reachable.
-3. If the provided command file exists.
-4. If ssh or telnet port is open.
-If open ssh port is detected the program uses ssh protocol to connect.
-If not it checks for open telnet port and uses telnet protocol to connect.
-If both checks fail program quits with an error message.
-Each device is created in a separate thread with one Router and one Interpreter objects.
-Devices are specified when starting the program either as a single IP or a list of IPs in a file.
-In the file every IP occupies a separate line. User must provide username and password for privileged access.
-User also must provide file name with language expressions for execution (command file).
-
-
-Debugging
 #Router toy language
 
 >A very simple language for interacting with Cisco devices. More information can be found in **Language Expressions**.

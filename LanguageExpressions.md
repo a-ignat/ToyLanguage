@@ -36,7 +36,8 @@ First evaluates **e1**. If **e1** evaluates to `True`, then evaluatate the line 
 Nested conditionals are supported however mind the number of `>s`. For example: `<set test "good" >`  
                                                                                     `<iff <get test>`  
                                                                                     `<the <iff "True" <the <set t "pass" >>>>>`  
-                                                                                    `#>end of <set, >end of inner <the, >end of outer <the`                                                                                     `#>end of inner <iff, >end of outer <iff`  
+                                                                                    `#>end of <set, >end of inner <the, >end of outer <the`  
+																					`#>end of inner <iff, >end of outer <iff`  
  All sum up to 5 >. After execution the variable **t** will be set to **pass**.
     
 15. `<evl "string" >` - the string enclosed between double/single quotes is evaluated using python's `eval()` function. 
@@ -46,7 +47,7 @@ If error occurs **output** is set to `""` and the error description is printed.
 17. `e1 and e2` - syntactic sugar for `<and >` but more convenient.
 18. `e1 or e2` - syntactic sugar for `<orr >` but more convenient.
 19. `e1 != e2` - syntactic sugar for two commands `<equ >` and `<not >` but more convenient.
-20. `e1 ge e2` - syntactic sugar for `<gre ` but more convenient.
+20. `e1 ge e2` - syntactic sugar for `<gre >` but more convenient.
 21. `e1 le e2` - syntactic sugar for `<les >` but more convenient.
 22. Lines starting with **#** are ignored and used for comments.
 23. Any line that does not start with the special words listed above is send to device as command.

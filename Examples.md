@@ -6,9 +6,9 @@ If true the interface Loopback100 is configured with the description *has Lb100*
 If false the interface Loopback2 is configured with the description *does not have Lb100*.
 >
 sh ip int br | in Loopback100  
-<iff <get output >  
-<the <cmd "conf t" >  <cmd "int Loop100" > <cmd "descr has Lb100" >>  
-<els <cmd "conf t" ><cmd "int Loop2" > <cmd "descr does not have Lb100" >>>  
+<iff <get output>  
+<the <cmd "conf t" ><cmd "int Loop100" ><cmd "descr has Lb100" >>  
+<els <cmd "conf t" ><cmd "int Loop2" ><cmd "descr does not have Lb100" >>>  
 end
 
 ###Example 2
@@ -41,12 +41,12 @@ If multiple matches are produced the first match is black-holed.
 > 
 show ip cache flow | in Fa0/0  
 <set cache <get output>>  
-<evl "re.findall(r'^\w+\d\/\d\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+.+?(\d\d\d+) \r\n', self.env['cache'], re.MULTILINE)[0][1]" >  
-<set pkts <get output >>  
+<evl "re.findall(r'^\w+\d\/\d\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+.+?(\d\d\d+) \r\n', self.env['cache'], re.MULTILINE)[0][1]" >
+<set pkts <get output >>
 <evl "re.findall(r'^\w+\d\/\d\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+.+?(\d\d\d+) \r\n', self.env['cache'], re.MULTILINE)[0][0]" >  
 <set src <get output>>  
 <iff <get pkts >  
-<the <cmd "conf t" > <cmd "ip route " + <get src> + " 255.255.255.255 null0">>> 
+<the <cmd "conf t" > <cmd "ip route " + <get src> + " 255.255.255.255 null0">>>
 
 ###Example 5
 Probably a better variant of Example 4.

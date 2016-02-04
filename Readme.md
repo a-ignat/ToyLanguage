@@ -60,3 +60,4 @@ Useful to see what the script is actually doing.
 Enables debugging for both Router and Interpreter objects. 
 Enables the second option for Interpreter debug. Useful for testing with real data when something is going wrong. Very verbose and should be used only when fixing mistakes.
 
+Author: a_ignatov@abv.bg

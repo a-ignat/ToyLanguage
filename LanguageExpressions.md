@@ -3,7 +3,7 @@
 There are two types of values: **strings** and **booleans**. When doing logical operations booleans are assumed.
 All string values are treated as `True` except the empty string `""` and the string `False`.
 
-* **environment** - implemented by hash table for storing variables. Initialized with `ip:router_ip_address`. To read a variable value use: `<get v_name>`. To store a variable value use: `<set v_name value>`
+* **environment** - implemented by hash table for storing variables. Initialized with `ip:router_ip_address`. To read a variable value use: `<get v_name>`. To store a variable value use: `<set v_name value>`. Variables *output* and *match* are special (see below).
 
 ##Syntax, Semantics, Evaluation
 
@@ -49,7 +49,9 @@ If error occurs **output** is set to `""` and the error description is printed.
 19. `e1 != e2` - syntactic sugar for two commands `<equ >` and `<not >` but more convenient.
 20. `e1 ge e2` - syntactic sugar for `<gre >` but more convenient.
 21. `e1 le e2` - syntactic sugar for `<les >` but more convenient.
-22. Lines starting with **#** are ignored and used for comments.
-23. Any line that does not start with the special words listed above is send to device as command.
+22. `<reg "pattern" e >` - evalute **e** and match the regular expression pattern against the value, using multiline option. Result is bound to variables starting from *match[0]* to *match[n]*. 
+If groups exist result is bound to variables *match[0][0]* to *match[n][m]*, where **n** is the number of matched lines and **m** is the group number. If no match the variable *match[0]* is set to `""`.
+23. Lines starting with **#** are ignored and used for comments.
+24. Any line that does not start with the special words listed above is send to device as command.
 
 > All logical expressions (6 - 14, 16 - 21) produce boolean results.

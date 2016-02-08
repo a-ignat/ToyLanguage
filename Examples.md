@@ -62,6 +62,18 @@ Then generates and sends router command to black-hole the source.
 `<cmd "ip route " + <get src> + " 255.255.255.255 null0" >`  
 
 ###Example 6
+The same example implemented using `<reg >` construct. Do source and traffic pattern matching on one line. 
+>
+`show ip cache flow | in Fa0/0`  
+`<reg "^\w+\d\/\d\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+.+?(\d\d\d+) \r\n" <get output >>`  
+`<set pkts <get match[0][1] >>`  
+`<set src <get match[0][0] >>`  
+`<iff <get pkts >`  
+`<the <cmd "conf t" > <cmd "ip route " + <get src> + " 255.255.255.255 null0">>>`   
+
+
+
+###Example 7
 Nested <iff ... > constructs.
 All nested <iff ...>, <the ...> or <els ...> clauses must span a single line. The number of trailing **>** is increased by one for each *<the*, *<els*
 or *<iff* clause. In this example two *<iff* + two *<the* + one for the *<set* construct adds up to 5. As a result the variable **t** is set to **True**,

@@ -17,6 +17,8 @@ class Interpreter(object):
         self.oper_st = []
         #data stack
         self.data_st = []
+        #match object
+        self.env['match'] = ""
         # to identify this router
         self.env['ip'] = self.__Router__.ip
         
@@ -209,7 +211,7 @@ class Interpreter(object):
                 fours = self.line[:5]
                 if fours == '<get ':
                     #<get name> -get the value of the variable
-                    m = re.match(r"<get (\w+) ?", self.line)
+                    m = re.match(r"<get ([\w\[\]]+) ?", self.line)
                     if not m: print "Wrong get syntax: % s\n" % self.line; sys.exit()
                     name = m.groups(0)[0]
                     #push command to command stack
@@ -221,7 +223,7 @@ class Interpreter(object):
                     self.parse_line()
                 elif fours == '<set ':
                     #<set name "value">
-                    m = re.match(r"<set (\w+) ?", self.line)
+                    m = re.match(r"<set ([\w\[\]]+) ?", self.line)
                     if not m: print "Wrong set syntax: % s\n" % self.line; sys.exit()
                     name = m.groups(0)[0]
                     #push command to command stack
@@ -394,6 +396,16 @@ class Interpreter(object):
                     self.line = self.line[len(m.group()):]  
                     #proceed
                     self.parse_line()
+                    
+                elif fours == '<reg ':
+                    #<reg "pattern" string >| "pattern" <reg string> | "pattern" string <reg > match the pattern against the string. String can be variable or "value". Store the match in self.env['match']
+                    #internally is used python's re.findall() with re.MULTILINE
+                    #strip <reg
+                    self.line = self.line[5:]
+                    #push command to command stack
+                    self.oper_st.append("reg")             
+                    #proceed
+                    self.parse_line()      
                 
                     
                 else :
@@ -632,8 +644,33 @@ class Interpreter(object):
             if line[-1] != '\n': line = line + '\n'
             f.write(line)
             f.close()
-            self.env[f_name] = value
+            self.env[f_name] = value    
+        
+        elif cmd == 'reg':
+            #match regexp
+            if len(self.data_st) < 2: print "Not enough operands for <reg !"; sys.exit()
+            #read string
+            string = self.data_st.pop()
+            #read pattern
+            pattern = self.data_st.pop()
+            pattern = r"" + pattern + r""
+            #initialize env[match]
+            for key in self.env.keys():
+                if key.startswith('match'):
+                    self.env.pop(key)
             
+            match = re.findall(pattern, string, re.MULTILINE)
+            if not match: #no match
+                self.env['match'] = ''; return
+            #there is a match
+            if type(match[0]) is str: #match is a list
+                for i in range(len(match)):
+                    self.env["match" + "[" + str(i) + "]"] = match[i]
+            else: #match is a list of tuples
+                for i in range(len(match)):
+                    for j in range(len(match[0])):
+                        self.env["match"+"["+str(i)+"]["+str(j)+"]"] = match[i][j]
+                
             
         else:
             #unknow commmand

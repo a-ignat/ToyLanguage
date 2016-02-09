@@ -3,12 +3,12 @@
 ###Policy routing
 In this example all traffic sourced from IP 192.168.2.10 is policy routed to host 10.10.10.10,
 regardless of destination address. All routing devices are configured in one pass.
-*First* is determined the incoming interface facing host 192.168.2.10.
-*Second* is determined the next-hop router for destination 10.10.10.10.
-*Third* is configured an access-list to match traffic coming from source 192.168.2.10.
+*First* is determined the incoming interface facing host 192.168.2.10.  
+*Second* is determined the next-hop router for destination 10.10.10.10.  
+*Third* is configured an access-list to match traffic coming from source 192.168.2.10.  
 *Fourth* is configured a route map using the access-list which sets the next-hop to the IP
-determined in *step 2*.
-*At last* the route-map is applied to the interface determined in *step 1*.
+determined in *step 2*.  
+*At last* the route-map is applied to the interface determined in *step 1*.  
 The router to which 10.10.10.10 is directly connected should not be included in device configuration IPs,
 beacause in that case policy routing is pointless. Besides next-hop match will produce an empty string,
 causing an error during execution.

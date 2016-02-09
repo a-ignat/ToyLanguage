@@ -14,30 +14,30 @@ beacause in that case policy routing is pointless. Besides next-hop match will p
 causing an error during execution.
 Sample generated configuration commands may look-like this:
 >
-ip access-list extended host_10
- permit ip host 192.168.2.10 any
-
-route-map my_map permit 10
- match ip address host_10
- set ip next-hop 172.16.0.2
-
-interface FastEthernet0/0
+ip access-list extended host_10  
+ permit ip host 192.168.2.10 any  
+>
+route-map my_map permit 10  
+ match ip address host_10  
+ set ip next-hop 172.16.0.2  
+>
+interface FastEthernet0/0  
  ip policy route-map my_map
  
 *Actual script:*
 >
-`sh ip route 192.168.2.10 longer-prefixes | in [0-9]\/[0-9]`
-`<reg " (\w+\/\w+.*)\r\n" <get output >>`
-`<set in_int <get match[0] >>`
-`sh ip route 10.10.10.10 longer-prefixes | in [0-9]\/[0-9]`
-`<reg "via (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})" <get output >>`
-`<set next_hop <get match[0] >>`
-`conf t`
-`ip access-list extended host_10`
-`permit ip host 192.168.2.10 any`
-`route-map my_map`
-`match ip address host_10`
-`<cmd "set ip next-hop " + <get next_hop >>`
-`<cmd "int " + <get in_int>>`
-`ip policy route-map my_map`
+`sh ip route 192.168.2.10 longer-prefixes | in [0-9]\/[0-9]`  
+`<reg " (\w+\/\w+.*)\r\n" <get output >>`  
+`<set in_int <get match[0] >>`  
+`sh ip route 10.10.10.10 longer-prefixes | in [0-9]\/[0-9]`  
+`<reg "via (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})" <get output >>`  
+`<set next_hop <get match[0] >>`  
+`conf t`  
+`ip access-list extended host_10`  
+`permit ip host 192.168.2.10 any`  
+`route-map my_map`  
+`match ip address host_10`  
+`<cmd "set ip next-hop " + <get next_hop >>`  
+`<cmd "int " + <get in_int>>`  
+`ip policy route-map my_map`  
 `end`  
